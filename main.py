@@ -1,11 +1,12 @@
-import pandas as pd
+from data_class import DataClass
 
-CSV_PATH = "data/data.csv"
+# Hardcoded for now, could be changed to a command line argument
+CSV_PATH = "test_data/wrong_data_types.csv"
 
 
 def main():
-    df = pd.read_csv(CSV_PATH)
-    print(df.head())
+    data_class = DataClass(CSV_PATH)
+    data_class.generate_report()
 
 
 if __name__ == "__main__":
