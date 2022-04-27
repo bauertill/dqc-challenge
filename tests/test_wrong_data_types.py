@@ -5,6 +5,12 @@ def test_wrong_data_types():
     data_class_wrong_data = DataClass("test_data/wrong_data_types.csv")
 
     assert data_class_wrong_data
+    report = data_class_wrong_data.generate_report()
+    assert report.get("UNIFORMITY")
 
 
-test_wrong_data_types()
+def test_correct_data_types():
+    data_class_correct_data = DataClass("test_data/correct_data_types.csv")
+    assert data_class_correct_data
+    report = data_class_correct_data.generate_report()
+    assert not report.get("UNIFORMITY")

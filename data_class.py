@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 import pandas as pd
 
 
@@ -9,15 +11,16 @@ import pandas as pd
 
 class DataClass:
     def __init__(self, path: str) -> None:
-        self.df = pd.read_csv(path)
+        self.df: pd.DataFrame = pd.read_csv(path)
 
-    def _find_hetero_data_types(self) -> str:
+    def check_uniformity(self) -> Dict[str, Any]:
+        uniformity_report = {}
         for column_index in self.df:
             column = self.df[column_index]
             for value in column:
                 print(type(value))
-        pass
+        return uniformity_report
 
-    def generate_report(self) -> str:
-
-        return ""
+    def generate_report(self) -> Dict[str, Any]:
+        report = {"UNIFORMITY": self.check_uniformity()}
+        return report
