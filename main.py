@@ -1,7 +1,7 @@
 from data_class import DataClass
 
 # Hardcoded for now, could be changed to a command line argument
-CSV_PATH = "test_data/wrong_data_types.csv"
+CSV_PATH = "data/data.csv"
 
 
 def main():

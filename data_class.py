@@ -17,10 +17,23 @@ class DataClass:
         uniformity_report = {}
         for column_index in self.df:
             column = self.df[column_index]
-            for value in column:
-                print(type(value))
+            types_in_column = set(type(value) for value in column)
+            if len(types_in_column) > 1:
+                uniformity_report[
+                    str(column.name)
+                ] = "contains different types " + " ,".join(str(types_in_column))
         return uniformity_report
 
+    def check_duplicates(self):
+        df = self.df[self.df.duplicated(keep=False)]
+        duplicate_rows = df.groupby(list(df)).apply(lambda x: tuple(x.index))
+        if not duplicate_rows.empty:
+            return duplicate_rows.tolist()
+        return []
+
     def generate_report(self) -> Dict[str, Any]:
-        report = {"UNIFORMITY": self.check_uniformity()}
+        report = {
+            "UNIFORMITY": self.check_uniformity(),
+            "DUPLICATE_ROWS": self.check_duplicates(),
+        }
         return report
