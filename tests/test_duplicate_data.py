@@ -7,7 +7,7 @@ def test_duplicate_data():
     report = data_class_wrong_data.generate_report()
     duplicates = report.get("DUPLICATE_ROWS")
     assert duplicates
-    assert duplicates == [(1,2)]
+    assert duplicates == [(1, 2)]
 
 
 def test_no_duplicates():

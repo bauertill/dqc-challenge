@@ -31,9 +31,14 @@ class DataClass:
             return duplicate_rows.tolist()
         return []
 
+    def check_missing_values(self):
+        null_data = self.df[self.df.isnull().any(axis=1)]
+        return null_data.index.tolist()
+
     def generate_report(self) -> Dict[str, Any]:
         report = {
             "UNIFORMITY": self.check_uniformity(),
             "DUPLICATE_ROWS": self.check_duplicates(),
+            "MISSING_VALUE_ROWS": self.check_missing_values(),
         }
         return report
