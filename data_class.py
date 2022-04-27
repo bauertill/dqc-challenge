@@ -1,6 +1,7 @@
 from typing import Dict, Any
 
 import pandas as pd
+from pandas.core.dtypes.common import is_numeric_dtype
 
 
 # - **UNIFORMITY** Is the data in the same format (per column)?
@@ -35,10 +36,21 @@ class DataClass:
         null_data = self.df[self.df.isnull().any(axis=1)]
         return null_data.index.tolist()
 
+    def detect_outliers(self):
+        # For simplicity outliers means 3 standard deviations from the mean
+        outliers_by_column = {}
+        for column_index in self.df:
+            column = self.df[column_index]
+            if is_numeric_dtype(column):
+                outliers = column[((column - column.mean()).abs() > 3 * column.std())]
+                outliers_by_column[str(column.name)] = outliers.index.tolist()
+        return outliers_by_column
+
     def generate_report(self) -> Dict[str, Any]:
         report = {
             "UNIFORMITY": self.check_uniformity(),
             "DUPLICATE_ROWS": self.check_duplicates(),
             "MISSING_VALUE_ROWS": self.check_missing_values(),
+            "OUTLIERS": self.detect_outliers()
         }
         return report
